@@ -1,17 +1,33 @@
 package com.example.realm_template;
 
 import android.app.Application;
+import android.support.annotation.VisibleForTesting;
 
 import com.example.realm_template.prngfix.PRNGFixes;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class MyApplication extends Application {
     private static MyApplication self;
+    private static Deque<ApplicationComponent> componentStack;
 
     public static MyApplication getInstance() {
         return self;
+    }
+
+    public static ApplicationComponent getComponent() {
+        return componentStack.peek();
+    }
+
+    @VisibleForTesting
+    public static void pushComponent(ApplicationComponent component) {
+        componentStack.push(component);
+    }
+
+    @VisibleForTesting
+    public static ApplicationComponent popComponent() {
+        return componentStack.pop();
     }
 
     @Override
@@ -20,14 +36,9 @@ public class MyApplication extends Application {
         self = this;
 
         PRNGFixes.apply();
-        setupRealm();
+
+        componentStack = new LinkedList<>();
+        componentStack.add(DaggerApplicationComponent.create());
     }
 
-    private void setupRealm() {
-        final RealmConfiguration config = new RealmConfiguration.Builder(this)
-                .schemaVersion(Migration.SCHEMA_VERSION)
-                .migration(new Migration())
-                .build();
-        Realm.setDefaultConfiguration(config);
-    }
 }

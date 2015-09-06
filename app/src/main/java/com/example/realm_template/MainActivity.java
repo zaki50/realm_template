@@ -14,13 +14,16 @@ import com.example.realm_template.model.User;
 
 import java.util.Random;
 
+import javax.inject.Inject;
+
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
 import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Realm realm;
+    @Inject
+    Realm realm;
 
     private static final class ViewHolder {
         public final TextView text1;
@@ -35,11 +38,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MyApplication.getComponent().inject(this);
+
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        realm = Realm.getDefaultInstance();
-
-
         binding.list.setAdapter(new RealmBaseAdapter<User>(this, realm.allObjects(User.class), true) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
