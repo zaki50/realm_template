@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.android.databinding'
+apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'ext-properties'
 
 android {
@@ -54,6 +56,8 @@ project.ext {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    apt 'com.android.databinding:compiler:1.0-rc1'
 
     compile "com.android.support:appcompat-v7:${supportPackageVersion}"
     compile "com.android.support:support-annotations:${supportPackageVersion}"
