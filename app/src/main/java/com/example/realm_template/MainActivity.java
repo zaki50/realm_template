@@ -1,4 +1,4 @@
-package com.uphyca.realm_template;
+package com.example.realm_template;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

@@ -1,0 +1,4 @@
+storeFile=<path to keystore>
+storePassword=<password of keystore>
+keyAlias=<alias of certificate>
+keyPassword=<password of private key>

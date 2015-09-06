@@ -1,4 +1,4 @@
-package com.uphyca.realm_template;
+package com.example.realm_template;
 
 import org.junit.Test;
 
