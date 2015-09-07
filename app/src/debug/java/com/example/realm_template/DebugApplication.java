@@ -1,7 +1,6 @@
 package com.example.realm_template;
 
 import com.facebook.stetho.Stetho;
-import com.squareup.leakcanary.LeakCanary;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 public class DebugApplication extends MyApplication {
@@ -18,7 +17,5 @@ public class DebugApplication extends MyApplication {
                                 .withLimit(1000)
                                 .build())
                         .build());
-
-        LeakCanary.install(this);
     }
 }
