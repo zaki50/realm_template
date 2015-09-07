@@ -37,7 +37,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void mockRobolectric() throws Exception {
+    public void alsoRobolectricAvailable() throws Exception {
         assertThat(SystemClock.uptimeMillis(), is(equalTo(100L)));
     }
 }
