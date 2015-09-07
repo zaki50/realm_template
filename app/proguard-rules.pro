@@ -22,3 +22,5 @@
 -dontwarn javax.**
 -dontwarn io.realm.**
 
+# for Stetho
+-keep class com.facebook.stetho.**{ *; }

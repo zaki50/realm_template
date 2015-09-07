@@ -52,6 +52,13 @@ android {
     }
 }
 
+repositories {
+    // for stetho-realm
+    maven {
+        url 'https://github.com/uPhyca/stetho-realm/raw/master/maven-repo'
+    }
+}
+
 project.ext {
     supportPackageVersion = '23.0.1'
     supportTestVersion = '0.3'
@@ -74,8 +81,11 @@ dependencies {
 
     compile 'com.google.dagger:dagger:2.0.1'
     apt "com.google.dagger:dagger-compiler:2.0.1"
-    androidTestApt "com.google.dagger:dagger-compiler:2.0.1"
 
+    debugCompile 'com.facebook.stetho:stetho:1.1.1'
+    debugCompile 'com.uphyca:stetho_realm:0.7.1'
+
+    androidTestApt "com.google.dagger:dagger-compiler:2.0.1"
     androidTestCompile "junit:junit:${junitVersion}"
     androidTestCompile "com.android.support.test.espresso:espresso-core:${espressoVersion}"
     androidTestCompile "com.android.support.test:runner:${supportTestVersion}"
