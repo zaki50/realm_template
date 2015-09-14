@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Locale;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -73,7 +75,7 @@ public class MainActivityTest {
         try {
             activityRule.launchActivity(new Intent(Intent.ACTION_MAIN));
 
-            onData(withItemName(is("foo"))).check(matches(withItemAge(is("25"))));
+            onData(withItemName(is("foo"))).check(matches(withItemAge(is(String.format(Locale.getDefault(), "%1$d", 25)))));
         } finally {
             componentHelper.popComponent(MyApplication.getInstance());
         }

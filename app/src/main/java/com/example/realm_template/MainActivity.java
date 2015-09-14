@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.realm_template.databinding.ActivityMainBinding;
 import com.example.realm_template.model.User;
 
+import java.util.Locale;
 import java.util.Random;
 
 import javax.inject.Inject;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 final User item = getItem(position);
 
                 holder.text1.setText(item.getName());
-                holder.text2.setText(Integer.toString(item.getAge()));
+                holder.text2.setText(String.format(Locale.getDefault(), "%1$d", item.getAge()));
 
                 return convertView;
             }
