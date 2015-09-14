@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MyApplication.getComponent().inject(this);
+        ((MyApplication) getApplication()).getComponent().inject(this);
 
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.list.setAdapter(new RealmBaseAdapter<User>(this, realm.allObjects(User.class), true) {

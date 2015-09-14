@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.realm_template.model.User;
+import com.example.realm_template.util.TestComponentHelper;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,13 @@ import static org.hamcrest.core.Is.is;
 public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, false, false);
+
+    private TestComponentHelper componentHelper = new TestComponentHelper();
+
+    @Before
+    public void setUp() {
+        componentHelper.clear();
+    }
 
     @Test
     public void testDataInList() {
@@ -54,19 +63,19 @@ public class MainActivityTest {
             realm.close();
         }
 
-        MyApplication.pushComponent(DaggerApplicationComponent.builder().applicationModule(new ApplicationModule() {
-            @Override
-            RealmConfiguration provideRealmConfiguration(Context applicationContext) {
-                return configuration;
-            }
-        }).build());
+        componentHelper.pushComponent(MyApplication.getInstance(),
+                DaggerApplicationComponent.builder().applicationModule(new ApplicationModule() {
+                    @Override
+                    RealmConfiguration provideRealmConfiguration(Context applicationContext) {
+                        return configuration;
+                    }
+                }).build());
         try {
-
             activityRule.launchActivity(new Intent(Intent.ACTION_MAIN));
 
             onData(withItemName(is("foo"))).check(matches(withItemAge(is("25"))));
         } finally {
-            MyApplication.popComponent();
+            componentHelper.popComponent(MyApplication.getInstance());
         }
     }
 
