@@ -63,7 +63,7 @@ project.ext {
     supportPackageVersion = '23.0.1'
     supportTestVersion = '0.3'
     espressoVersion = '2.2'
-    junitVersion = '2.2'
+    junitVersion = '4.12'
     dexmakerVersion = '1.2'
     powerMockVersion = '1.6.2'
 }
