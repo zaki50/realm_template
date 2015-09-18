@@ -1,7 +1,5 @@
 package com.example.realm_template;
 
-import android.content.pm.PackageManager;
-
 import com.facebook.stetho.Stetho;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
@@ -10,7 +8,7 @@ public class DebugApplication extends MyApplication {
     public void onCreate() {
         super.onCreate();
 
-        if (!isOnRobolectricTest()) {
+        if (!isRunningOnJvm()) {
             Stetho.initialize(
                     Stetho.newInitializerBuilder(this)
                             .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
@@ -23,7 +21,8 @@ public class DebugApplication extends MyApplication {
         }
     }
 
-    private boolean isOnRobolectricTest() {
-        return getPackageManager().getClass().getName().startsWith("org.robolectric.");
+    private boolean isRunningOnJvm() {
+        final String vmName = System.getProperty("java.vm.name");
+        return vmName != null && vmName.startsWith("Java");
     }
 }
