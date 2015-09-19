@@ -1,8 +1,15 @@
 package com.example.realm_template;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +25,7 @@ import java.util.Random;
 import javax.inject.Inject;
 
 import io.realm.Realm;
-import io.realm.RealmBaseAdapter;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,13 +33,15 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     Realm realm;
 
-    private static final class ViewHolder {
+    private static final class ViewHolder extends RecyclerView.ViewHolder {
         public final TextView text1;
         public final TextView text2;
 
-        public ViewHolder(TextView text1, TextView text2) {
-            this.text1 = text1;
-            this.text2 = text2;
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            text1 = (TextView) itemView.findViewById(android.R.id.text1);
+            text2 = (TextView) itemView.findViewById(android.R.id.text2);
         }
     }
 
@@ -43,25 +52,79 @@ public class MainActivity extends AppCompatActivity {
         ((MyApplication) getApplication()).getComponent().inject(this);
 
         final ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        binding.list.setAdapter(new RealmBaseAdapter<User>(this, realm.allObjects(User.class), true) {
+        final RecyclerView list = binding.list;
+
+        list.setHasFixedSize(true);
+        list.setLayoutManager(new LinearLayoutManager(this));
+        list.setAdapter(new RecyclerView.Adapter<ViewHolder>() {
+            private final RealmResults<User> users;
+            private final RealmChangeListener listener;
+
+            {
+                users = realm.allObjects(User.class);
+                listener = new RealmChangeListener() {
+                    @Override
+                    public void onChange() {
+                        notifyDataSetChanged();
+                    }
+                };
+                realm.addChangeListener(listener);
+            }
+
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                final ViewHolder holder;
-                if (convertView == null) {
-                    convertView = inflater.inflate(android.R.layout.simple_list_item_2, parent, false);
-                    holder = new ViewHolder((TextView) convertView.findViewById(android.R.id.text1),
-                            (TextView) convertView.findViewById(android.R.id.text2));
-                    convertView.setTag(holder);
-                } else {
-                    holder = (ViewHolder) convertView.getTag();
+            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                final View view = getLayoutInflater().inflate(android.R.layout.simple_list_item_2,
+                        parent,
+                        false);
+                return new ViewHolder(view);
+            }
+
+            @Override
+            public void onBindViewHolder(ViewHolder holder, int position) {
+                final User user = users.get(position);
+
+                holder.text1.setText(user.getName());
+                holder.text2.setText(String.format(Locale.getDefault(), "%1$d", user.getAge()));
+            }
+
+            @Override
+            public int getItemCount() {
+                return users.size();
+            }
+        });
+
+        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.argb(30, 0, 0, 0));
+        final int dividerHeight = (int) (2 * getResources().getDisplayMetrics().density);
+
+        list.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.bottom = dividerHeight;
+            }
+
+            @Override
+            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
+                super.onDraw(c, parent, state);
+
+                final RecyclerView.LayoutManager manager = parent.getLayoutManager();
+                final int left = parent.getPaddingLeft();
+                final int right = parent.getWidth() - parent.getPaddingRight();
+                final int childCount = parent.getChildCount();
+                for (int i = 0; i < childCount; i++) {
+                    final View child = parent.getChildAt(i);
+                    final RecyclerView.LayoutParams params =
+                            (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                    // ViewCompat.getTranslationY()を入れないと
+                    // 追加・削除のアニメーション時の位置が変になる
+                    final int top = manager.getDecoratedBottom(child)
+                            - params.topMargin
+                            + Math.round(ViewCompat.getTranslationY(child));
+                    final int bottom = top + dividerHeight;
+                    c.drawRect(left, top, right, bottom, paint);
                 }
-
-                final User item = getItem(position);
-
-                holder.text1.setText(item.getName());
-                holder.text2.setText(String.format(Locale.getDefault(), "%1$d", item.getAge()));
-
-                return convertView;
             }
         });
     }

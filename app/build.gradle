@@ -74,6 +74,7 @@ dependencies {
     apt 'com.android.databinding:compiler:1.0-rc2'
 
     compile "com.android.support:appcompat-v7:${supportPackageVersion}"
+    compile "com.android.support:recyclerview-v7:${supportPackageVersion}"
     compile "com.android.support:support-annotations:${supportPackageVersion}"
     provided 'javax.annotation:javax.annotation-api:1.2'
 
