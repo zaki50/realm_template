@@ -1,5 +1,6 @@
 package com.example.realm_template;
 
+import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmMigration;
 
@@ -8,20 +9,18 @@ public class Migration implements RealmMigration {
     public static final long SCHEMA_VERSION = 0;
 
     @Override
-    public long execute(Realm realm, long version) {
+    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
 
-        //if (version == 0) {
+        //if (oldVersion == 0) {
         //    // migrate to 1
         //
         //    // write migration code here
         //
-        //    version++;
+        //    oldVersion++;
         //}
 
-        if (version != SCHEMA_VERSION) {
-            throw new RuntimeException("unexpected scheme version. expected: " + SCHEMA_VERSION + ", actual: " + version);
+        if (oldVersion != SCHEMA_VERSION) {
+            throw new RuntimeException("unexpected scheme version. expected: " + SCHEMA_VERSION + ", actual: " + oldVersion);
         }
-
-        return version;
     }
 }
