@@ -6,9 +6,8 @@ buildscript {
     }
     //noinspection GroovyAssignabilityCheck
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0-alpha3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'io.realm:realm-gradle-plugin:0.88.2'
+        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'io.realm:realm-gradle-plugin:1.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -30,8 +29,8 @@ allprojects {
 }
 
 project.ext {
-    compileSdkVersion = 23
-    buildToolsVersion = '24 rc1'
+    compileSdkVersion = 24
+    buildToolsVersion = '24'
 
     // to improve build server performance, add -PdisablePreDex option to command-line arguments.
     // see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.
@@ -43,5 +42,5 @@ task clean(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.12'
+    gradleVersion = '2.14'
 }

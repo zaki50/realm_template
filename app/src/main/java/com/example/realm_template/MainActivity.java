@@ -58,17 +58,17 @@ public class MainActivity extends AppCompatActivity {
         list.setLayoutManager(new LinearLayoutManager(this));
         list.setAdapter(new RecyclerView.Adapter<ViewHolder>() {
             private final RealmResults<User> users;
-            private final RealmChangeListener listener;
+            private final RealmChangeListener<RealmResults<User>> listener;
 
             {
-                users = realm.allObjects(User.class);
-                listener = new RealmChangeListener() {
+                users = realm.where(User.class).findAll();
+                listener = new RealmChangeListener<RealmResults<User>>() {
                     @Override
-                    public void onChange() {
+                    public void onChange(RealmResults<User> users) {
                         notifyDataSetChanged();
                     }
                 };
-                realm.addChangeListener(listener);
+                users.addChangeListener(listener);
             }
 
             @Override
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.allObjects(User.class).clear();
+                realm.where(User.class).findAll().deleteAllFromRealm();
 
                 realm.copyToRealm(user1);
                 realm.copyToRealm(user2);
@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void incrementAge() {
-        final RealmResults<User> allUsers = realm.allObjects(User.class);
+        final RealmResults<User> allUsers = realm.where(User.class).findAll();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
