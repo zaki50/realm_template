@@ -63,7 +63,7 @@ repositories {
 }
 
 project.ext {
-    supportPackageVersion = '24.0.0'
+    supportPackageVersion = '24.1.1'
     supportTestVersion = '0.5'
     espressoVersion = '2.2.1'
     junitVersion = '4.12'
@@ -117,4 +117,6 @@ dependencies {
     }
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
+    // rxjava is required even if it's not used since PowerMock requires all referenced classes.
+    testCompile 'io.reactivex:rxjava:1.1.0'
 }
