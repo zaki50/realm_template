@@ -23,6 +23,6 @@ public class DebugApplication extends MyApplication {
 
     private boolean isRunningOnJvm() {
         final String vmName = System.getProperty("java.vm.name");
-        return vmName != null && vmName.startsWith("Java");
+        return vmName != null && (vmName.startsWith("Java") || vmName.startsWith("OpenJDK"));
     }
 }
