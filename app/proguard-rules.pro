@@ -16,5 +16,9 @@
 #   public *;
 #}
 
+# for PRNGFixes
+-dontwarn org.apache.harmony.xnet.provider.jsse.NativeCrypto
+-dontnote org.apache.harmony.xnet.provider.jsse.NativeCrypto
+
 # for Stetho
 -keep class com.facebook.stetho.**{ *; }
