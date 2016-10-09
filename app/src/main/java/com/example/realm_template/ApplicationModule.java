@@ -20,10 +20,13 @@ public class ApplicationModule {
     @Provides
     @Singleton
     RealmConfiguration provideRealmConfiguration() {
-        return new RealmConfiguration.Builder()
+        final RealmConfiguration.Builder builder = new RealmConfiguration.Builder()
                 .schemaVersion(Migration.SCHEMA_VERSION)
-                .migration(new Migration())
-                .build();
+                .migration(new Migration());
+        if (BuildConfig.DEBUG) {
+            builder.deleteRealmIfMigrationNeeded();
+        }
+        return builder.build();
     }
 
     @Provides
