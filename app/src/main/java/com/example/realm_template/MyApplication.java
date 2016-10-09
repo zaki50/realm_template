@@ -7,6 +7,8 @@ import com.example.realm_template.prngfix.PRNGFixes;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
+import io.realm.Realm;
+
 public class MyApplication extends Application {
     private static MyApplication self;
     public static MyApplication getInstance() {
@@ -31,6 +33,8 @@ public class MyApplication extends Application {
         self = this;
 
         PRNGFixes.apply();
+
+        Realm.init(this);
 
         component = DaggerApplicationComponent.create();
         refWatcher = LeakCanary.install(this);
