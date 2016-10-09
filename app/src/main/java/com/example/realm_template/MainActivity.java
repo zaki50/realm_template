@@ -26,6 +26,7 @@ import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,21 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(this));
-        list.setAdapter(new RecyclerView.Adapter<ViewHolder>() {
-            private final RealmResults<User> users;
-            private final RealmChangeListener<RealmResults<User>> listener;
-
-            {
-                users = realm.where(User.class).findAll();
-                listener = new RealmChangeListener<RealmResults<User>>() {
-                    @Override
-                    public void onChange(RealmResults<User> users) {
-                        notifyDataSetChanged();
-                    }
-                };
-                users.addChangeListener(listener);
-            }
-
+        list.setAdapter(new RealmRecyclerViewAdapter<User, ViewHolder>(this, realm.where(User.class).findAll(), true) {
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 final View view = getLayoutInflater().inflate(android.R.layout.simple_list_item_2,
@@ -81,15 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(ViewHolder holder, int position) {
-                final User user = users.get(position);
+                final User user = getItem(position);
 
-                holder.text1.setText(user.getName());
-                holder.text2.setText(String.format(Locale.getDefault(), "%1$d", user.getAge()));
-            }
-
-            @Override
-            public int getItemCount() {
-                return users.size();
+                holder.text1.setText(user.name);
+                holder.text2.setText(String.format(Locale.getDefault(), "%1$d", user.age));
             }
         });
 
@@ -162,11 +144,11 @@ public class MainActivity extends AppCompatActivity {
         final Random random = new Random();
 
         final User user1 = new User();
-        user1.setName("Ichiro Suzuki");
-        user1.setAge(20 + random.nextInt(20));
+        user1.name = "Ichiro Suzuki";
+        user1.age = 20 + random.nextInt(20);
         final User user2 = new User();
-        user2.setName("Jiro Yamada");
-        user2.setAge(20 + random.nextInt(20));
+        user2.name = "Jiro Yamada";
+        user2.age = 20 + random.nextInt(20);
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -187,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 // don't use for-each. see https://github.com/realm/realm-java/issues/640
                 for (int i = 0; i < allUsers.size(); i++) {
                     final User user = allUsers.get(i);
-                    user.setAge(user.getAge() + 1);
+                    user.age = user.age + 1;
                 }
             }
         });
