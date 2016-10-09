@@ -1,6 +1,5 @@
 package com.example.realm_template;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.BoundedMatcher;
@@ -38,12 +37,15 @@ public class MainActivityTest {
 
     @Before
     public void setUp() {
+        Realm.init(InstrumentationRegistry.getTargetContext());
         componentHelper.clear();
     }
 
     @Test
     public void testDataInList() {
-        final RealmConfiguration configuration = new RealmConfiguration.Builder(InstrumentationRegistry.getTargetContext())
+
+        final RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .directory(InstrumentationRegistry.getTargetContext().getFilesDir())
                 .name("test.realm")
                 .deleteRealmIfMigrationNeeded()
                 .schemaVersion(0L)
@@ -68,7 +70,7 @@ public class MainActivityTest {
         componentHelper.pushComponent(MyApplication.getInstance(),
                 DaggerApplicationComponent.builder().applicationModule(new ApplicationModule() {
                     @Override
-                    RealmConfiguration provideRealmConfiguration(Context applicationContext) {
+                    RealmConfiguration provideRealmConfiguration() {
                         return configuration;
                     }
                 }).build());
