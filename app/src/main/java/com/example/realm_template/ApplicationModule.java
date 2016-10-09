@@ -19,8 +19,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    RealmConfiguration provideRealmConfiguration(Context applicationContext) {
-        return new RealmConfiguration.Builder(applicationContext)
+    RealmConfiguration provideRealmConfiguration() {
+        return new RealmConfiguration.Builder()
                 .schemaVersion(Migration.SCHEMA_VERSION)
                 .migration(new Migration())
                 .build();
