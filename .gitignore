@@ -1,6 +1,8 @@
 local.properties
 ext.properties
 
+.externalNativeBuild
+
 # for gradle, IDEA
 .gradle
 build/
