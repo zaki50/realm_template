@@ -30,7 +30,7 @@ allprojects {
 
 project.ext {
     compileSdkVersion = 25
-    buildToolsVersion = '25.0.0'
+    buildToolsVersion = '25.0.1'
 
     // to improve build server performance, add -PdisablePreDex option to command-line arguments.
     // see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.
