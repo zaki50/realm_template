@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'ext-properties'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 android {
@@ -55,10 +56,6 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
         debug.java.srcDirs += 'src/debug/kotlin'
     }
-}
-
-kapt {
-    generateStubs = true
 }
 
 repositories {
