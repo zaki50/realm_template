@@ -81,7 +81,7 @@ project.ext {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    annotationProcessor 'dk.ilios:realmfieldnameshelper:1.0.0'
+    annotationProcessor 'dk.ilios:realmfieldnameshelper:1.1.0'
 
     compile "com.android.support:appcompat-v7:${supportPackageVersion}"
     compile "com.android.support:recyclerview-v7:${supportPackageVersion}"
