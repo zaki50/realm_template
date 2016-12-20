@@ -67,7 +67,7 @@ realm {
 }
 
 project.ext {
-    supportPackageVersion = '25.0.1'
+    supportPackageVersion = '25.1.0'
     supportTestVersion = '0.5'
     espressoVersion = '2.2.1'
     junitVersion = '4.12'
