@@ -71,7 +71,7 @@ realm {
 }
 
 project.ext {
-    supportPackageVersion = '25.1.0'
+    supportPackageVersion = '25.2.0'
     supportTestVersion = '0.5'
     espressoVersion = '2.2.1'
     junitVersion = '4.12'
@@ -127,5 +127,5 @@ dependencies {
     testCompile "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
     // rxjava is required even if it's not used since PowerMock requires all referenced classes.
     testCompile 'io.reactivex:rxjava:1.1.0'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlin_version}"
 }

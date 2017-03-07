@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.0.5-3'
+    ext.kotlin_version = '1.1.0'
     repositories {
         jcenter()
 //        mavenLocal()
@@ -11,8 +11,8 @@ buildscript {
     }
     //noinspection GroovyAssignabilityCheck
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'io.realm:realm-gradle-plugin:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'io.realm:realm-gradle-plugin:3.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,9 +30,9 @@ allprojects {
     }
 
     project.plugins.whenPluginAdded { plugin ->
-        if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
+        if (plugin.class.name == "com.android.build.gradle.AppPlugin") {
             project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
-        } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
+        } else if (plugin.class.name == "com.android.build.gradle.LibraryPlugin") {
             project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
         }
     }
@@ -40,7 +40,7 @@ allprojects {
 
 project.ext {
     compileSdkVersion = 25
-    buildToolsVersion = '25.0.1'
+    buildToolsVersion = '25.0.2'
 
     // to improve build server performance, add -PdisablePreDex option to command-line arguments.
     // see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.
@@ -52,5 +52,5 @@ task clean(type: Delete) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+    gradleVersion = '3.4'
 }
