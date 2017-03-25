@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         list.setHasFixedSize(true)
         list.setLayoutManager(LinearLayoutManager(this))
-        list.setAdapter(object : RealmRecyclerViewAdapter<User, ViewHolder>(this, realm.where(User::class.java).findAll(), true) {
+        list.setAdapter(object : RealmRecyclerViewAdapter<User, ViewHolder>(realm.where(User::class.java).findAll(), true) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
                 val view = getLayoutInflater().inflate(android.R.layout.simple_list_item_2,
                         parent,

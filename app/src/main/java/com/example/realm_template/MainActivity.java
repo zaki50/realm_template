@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(this));
-        list.setAdapter(new RealmRecyclerViewAdapter<User, ViewHolder>(this, realm.where(User.class).findAll(), true) {
+        list.setAdapter(new RealmRecyclerViewAdapter<User, ViewHolder>(realm.where(User.class).findAll(), true) {
             @Override
             public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 final View view = getLayoutInflater().inflate(android.R.layout.simple_list_item_2,

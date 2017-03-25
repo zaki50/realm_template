@@ -73,7 +73,7 @@ realm {
 }
 
 project.ext {
-    supportPackageVersion = '25.1.0'
+    supportPackageVersion = '25.3.0'
     supportTestVersion = '0.5'
     espressoVersion = '2.2.1'
     junitVersion = '4.12'
@@ -94,7 +94,7 @@ dependencies {
     compile "com.android.support:support-annotations:${supportPackageVersion}"
     provided 'javax.annotation:javax.annotation-api:1.2'
 
-    compile 'io.realm:android-adapters:1.4.0'
+    compile 'io.realm:android-adapters:2.0.0'
 
     compile "com.google.dagger:dagger:${daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
