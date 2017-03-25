@@ -32,29 +32,23 @@ class MainActivity : AppCompatActivity() {
     lateinit var realm: Realm
 
     private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val text1: TextView
-        val text2: TextView
-
-        init {
-
-            text1 = itemView.findViewById(android.R.id.text1) as TextView
-            text2 = itemView.findViewById(android.R.id.text2) as TextView
-        }
+        val text1: TextView = itemView.findViewById(android.R.id.text1) as TextView
+        val text2: TextView = itemView.findViewById(android.R.id.text2) as TextView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        (getApplication() as MyApplication).component?.inject(this)
+        (application as MyApplication).component?.inject(this)
 
         val list = findViewById(R.id.list) as RecyclerView
 
         list.setHasFixedSize(true)
-        list.setLayoutManager(LinearLayoutManager(this))
-        list.setAdapter(object : RealmRecyclerViewAdapter<User, ViewHolder>(realm.where(User::class.java).findAll(), true) {
+        list.layoutManager = LinearLayoutManager(this)
+        list.adapter = object : RealmRecyclerViewAdapter<User, ViewHolder>(realm.where(User::class.java).findAll(), true) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-                val view = getLayoutInflater().inflate(android.R.layout.simple_list_item_2,
+                val view = layoutInflater.inflate(android.R.layout.simple_list_item_2,
                         parent,
                         false)
                 return ViewHolder(view)
@@ -63,14 +57,14 @@ class MainActivity : AppCompatActivity() {
             override fun onBindViewHolder(holder: ViewHolder, position: Int) {
                 val user = getItem(position)
 
-                holder.text1.setText(user?.name)
+                holder.text1.text = user?.name
                 holder.text2.text = String.format(Locale.getDefault(), "%1\$d", user?.age)
             }
-        })
+        }
 
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.color = Color.argb(30, 0, 0, 0)
-        val dividerHeight = (2 * getResources().getDisplayMetrics().density).toInt()
+        val dividerHeight = (2 * resources.displayMetrics.density).toInt()
 
         list.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
@@ -81,13 +75,13 @@ class MainActivity : AppCompatActivity() {
             override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
                 super.onDraw(c, parent, state)
 
-                val manager = parent.getLayoutManager()
-                val left = parent.getPaddingLeft()
-                val right = parent.getWidth() - parent.getPaddingRight()
-                val childCount = parent.getChildCount()
+                val manager = parent.layoutManager
+                val left = parent.paddingLeft
+                val right = parent.width - parent.paddingRight
+                val childCount = parent.childCount
                 for (i in 0..childCount - 1) {
                     val child = parent.getChildAt(i)
-                    val params = child.getLayoutParams() as RecyclerView.LayoutParams
+                    val params = child.layoutParams as RecyclerView.LayoutParams
 
                     // ViewCompat.getTranslationY()を入れないと
                     // 追加・削除のアニメーション時の位置が変になる
@@ -107,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
@@ -144,13 +138,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun incrementAge() {
-        val allUsers : RealmResults<User> = realm.where(User::class.java).findAll()
         realm.executeTransaction {
-            // don't use for-each. see https://github.com/realm/realm-java/issues/640
-            for (i in 0..allUsers.size - 1) {
-                val user = allUsers.get(i)
-                user.age = user.age + 1
-            }
+            val allUsers : RealmResults<User> = realm.where(User::class.java).findAll()
+            allUsers.forEach { it.age++ }
         }
     }
 
