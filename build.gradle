@@ -1,18 +1,19 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.1'
+    ext.kotlin_version = '1.1.2-5'
     repositories {
         jcenter()
 //        mavenLocal()
 //        maven {
 //            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
 //        }
+        maven { url 'https://maven.google.com' }
     }
     //noinspection GroovyAssignabilityCheck
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.4.0-alpha3'
-        classpath 'io.realm:realm-gradle-plugin:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha3'
+        classpath 'io.realm:realm-gradle-plugin:3.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -27,6 +28,7 @@ allprojects {
 //        maven {
 //            url 'http://oss.jfrog.org/artifactory/oss-snapshot-local'
 //        }
+        maven { url 'https://maven.google.com' }
     }
 
     project.plugins.whenPluginAdded { plugin ->
@@ -39,8 +41,8 @@ allprojects {
 }
 
 project.ext {
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.2'
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.0'
 
     // to improve build server performance, add -PdisablePreDex option to command-line arguments.
     // see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.

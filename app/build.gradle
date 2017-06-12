@@ -8,8 +8,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.realm_template"
-        minSdkVersion 9
-        targetSdkVersion 25
+        minSdkVersion 15
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
@@ -52,8 +52,8 @@ android {
 
     compileOptions {
         encoding = "UTF-8"
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     packagingOptions {
@@ -73,7 +73,7 @@ realm {
 }
 
 project.ext {
-    supportPackageVersion = '25.3.0'
+    supportPackageVersion = '26.0.0-beta2'
     supportTestVersion = '0.5'
     espressoVersion = '2.2.1'
     junitVersion = '4.12'
@@ -85,52 +85,50 @@ project.ext {
 
 //noinspection GroovyAssignabilityCheck
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
     annotationProcessor 'dk.ilios:realmfieldnameshelper:1.1.0'
 
-    compile "com.android.support:appcompat-v7:${supportPackageVersion}"
-    compile "com.android.support:recyclerview-v7:${supportPackageVersion}"
-    compile "com.android.support:support-annotations:${supportPackageVersion}"
-    provided 'javax.annotation:javax.annotation-api:1.2'
+    implementation "com.android.support:appcompat-v7:${supportPackageVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportPackageVersion}"
+    implementation "com.android.support:support-annotations:${supportPackageVersion}"
+    compileOnly    'javax.annotation:javax.annotation-api:1.2'
 
-    compile 'io.realm:android-adapters:2.0.0'
+    implementation 'io.realm:android-adapters:2.1.0'
 
-    compile "com.google.dagger:dagger:${daggerVersion}"
+    implementation "com.google.dagger:dagger:${daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
 
-    debugCompile 'com.facebook.stetho:stetho:1.4.1'
-    debugCompile 'com.uphyca:stetho_realm:2.0.0'
+    debugImplementation 'com.facebook.stetho:stetho:1.4.2'
+    debugImplementation 'com.uphyca:stetho_realm:2.0.0'
 
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}"
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${leakcanaryVersion}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${leakcanaryVersion}"
 
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-    androidTestCompile "junit:junit:${junitVersion}"
-    androidTestCompile "com.android.support.test.espresso:espresso-core:${espressoVersion}"
-    androidTestCompile "com.android.support.test:runner:${supportTestVersion}"
-    androidTestCompile "com.android.support.test:rules:${supportTestVersion}"
-    androidTestCompile "com.android.support:support-annotations:${supportPackageVersion}"
+    androidTestImplementation "junit:junit:${junitVersion}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${espressoVersion}"
+    androidTestImplementation "com.android.support.test:runner:${supportTestVersion}"
+    androidTestImplementation "com.android.support.test:rules:${supportTestVersion}"
+    androidTestImplementation "com.android.support:support-annotations:${supportPackageVersion}"
 
     // mockito for dex
-    androidTestCompile "com.google.dexmaker:dexmaker:${dexmakerVersion}"
-    androidTestCompile "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}"
+    androidTestImplementation "com.google.dexmaker:dexmaker:${dexmakerVersion}"
+    androidTestImplementation "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}"
 
-    testCompile "junit:junit:${junitVersion}"
-    testCompile 'org.robolectric:robolectric:3.0'
-    testCompile "com.android.support.test:runner:${supportTestVersion}"
-    testCompile "com.android.support.test:rules:${supportTestVersion}"
-    testCompile "com.android.support:support-annotations:${supportPackageVersion}"
+    testImplementation "junit:junit:${junitVersion}"
+    testImplementation 'org.robolectric:robolectric:3.0'
+    testImplementation "com.android.support.test:runner:${supportTestVersion}"
+    testImplementation "com.android.support.test:rules:${supportTestVersion}"
+    testImplementation "com.android.support:support-annotations:${supportPackageVersion}"
 
-    testCompile "org.powermock:powermock-module-junit4:${powerMockVersion}"
-    testCompile "org.powermock:powermock-module-junit4-rule:${powerMockVersion}"
-    testCompile("org.powermock:powermock-api-mockito:${powerMockVersion}") {
+    testImplementation "org.powermock:powermock-module-junit4:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4-rule:${powerMockVersion}"
+    testImplementation("org.powermock:powermock-api-mockito:${powerMockVersion}") {
         // to exclude wrong version of hamcrest-core. use mockito-core instead.
         exclude module: 'mockito-all'
     }
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
+    testImplementation 'org.mockito:mockito-core:1.10.19'
+    testImplementation "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
     // rxjava is required even if it's not used since PowerMock requires all referenced classes.
-    testCompile 'io.reactivex:rxjava:1.1.0'
+    testImplementation 'io.reactivex:rxjava:1.1.0'
 }

@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var realm: Realm
 
     private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val text1: TextView = itemView.findViewById(android.R.id.text1) as TextView
-        val text2: TextView = itemView.findViewById(android.R.id.text2) as TextView
+        val text1: TextView = itemView.findViewById(android.R.id.text1)
+        val text2: TextView = itemView.findViewById(android.R.id.text2)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         (application as MyApplication).component?.inject(this)
 
-        val list = findViewById(R.id.list) as RecyclerView
+        val list: RecyclerView = findViewById(R.id.list)
 
         list.setHasFixedSize(true)
         list.layoutManager = LinearLayoutManager(this)
